@@ -14,6 +14,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+Route::middleware('auth:sanctum')->post('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/login' , [\App\Http\Controllers\LoginController::class , 'index']  );
+Route::post('/logout' , [\App\Http\Controllers\LoginController::class , 'logout']  );
+
+Route::get('/password' , function (){
+
+    return \Illuminate\Support\Facades\Hash::make('samisamo');
+});
+
+
