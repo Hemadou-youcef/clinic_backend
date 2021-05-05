@@ -3,25 +3,26 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-Route::middleware('auth:sanctum')->post('/user', function (Request $request) {
-    return $request->user();
-});
+
+
+Route::get('/patients' , [\App\Http\Controllers\PatientController::class , 'index']);
 Route::post('/login' , [\App\Http\Controllers\LoginController::class , 'login']  );
 Route::post('/logout' , [\App\Http\Controllers\LoginController::class , 'logout']  );
+
+Route::middleware('auth:sanctum')->group(function(){
+    Route::post('/user', function (Request $request) {
+        return $request->user();
+    });
+//    Route::get('/patients' , [\App\Http\Controllers\PatientController::class , 'index']);
+    Route::get('/patient/{id}', [\App\Http\Controllers\PatientController::class, 'show']);
+    Route::post('/patient/create', [\App\Http\Controllers\PatientController::class, 'store']);
+    Route::post('/patient/delete/{patient}', [\App\Http\Controllers\PatientController::class, 'destroy']);
+    Route::post('/patient/update/{patient}', [\App\Http\Controllers\PatientController::class, 'update']);
+});
+
+
+
 
 Route::get('/password' , function (){
 

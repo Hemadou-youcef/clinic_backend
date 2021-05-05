@@ -17,9 +17,12 @@ class CreatePatientsTable extends Migration
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
+            $table->string('gender');
             $table->date('birthday');
+            $table->string('address');
             $table->string('phone');
             $table->string('email');
+            $table->string('bloodType');
             $table->timestamps();
         });
     }

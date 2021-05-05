@@ -16,12 +16,10 @@ class LoginController extends Controller
         ]);
 
         if ( Auth::attempt($credentials)){
-            return response()->json([
-                Auth::user()
-            ], 200);
+            return response()->json(Auth::user(), 200);
         }
 
-        throw \Illuminate\Validation\ValidationException::withMessages([
+         throw \Illuminate\Validation\ValidationException::withMessages([
             'UserNotFound' => 'user not found'
         ]);
 
