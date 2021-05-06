@@ -35,7 +35,7 @@ Route::post('/logout' , [\App\Http\Controllers\LoginController::class , 'logout'
 
 Route::get('/password' , function (){
 
-    return \Illuminate\Support\Facades\Hash::make('12345678991');
+    return \Illuminate\Support\Facades\Hash::make('123456789911a');
 });
 
 
