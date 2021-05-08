@@ -6,11 +6,13 @@ use App\Models\patient;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Intervention\Image\Image;
 
 class PatientController extends Controller
 {
     public function index()
     {
+
         $search_query = request()->query('q');
         if ($search_query){
             $result = patient::where('firstname', 'like', "%$search_query%")
@@ -36,7 +38,15 @@ class PatientController extends Controller
 
         $patient_info = $this->validation(request());
 
+
+
+
         return patient::create($patient_info);
+    }
+
+    public function updatepicture(patient $patient)
+    {
+
     }
 
 
@@ -84,7 +94,7 @@ class PatientController extends Controller
             'email' => ['required', 'email'],
             'address' => ['required'],
             'birthday' => ['required'],
-            'phone' => ['required', 'min:5', 'max:10'],
+            'phone' => ['required', 'min:5'],
 
         ]);
         return $request_info;
@@ -93,5 +103,10 @@ class PatientController extends Controller
     public function search()
     {
 
+    }
+
+    public function getAllPatient(){
+        $patient = db::table('patients')->get();
+        return PatientResource::collection($patient);
     }
 }

@@ -22,6 +22,7 @@ class CreatePatientsTable extends Migration
             $table->string('address');
             $table->string('phone');
             $table->string('email');
+            $table->text('image')->default('/images/default.jpg');
             $table->string('bloodType');
             $table->timestamps();
         });
