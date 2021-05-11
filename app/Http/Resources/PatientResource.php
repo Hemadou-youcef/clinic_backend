@@ -18,6 +18,7 @@ class PatientResource extends JsonResource
             'id' => $this->id,
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
+            'gender' => $this->gender,
         ];
     }
 }

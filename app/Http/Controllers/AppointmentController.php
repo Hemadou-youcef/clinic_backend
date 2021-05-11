@@ -17,6 +17,7 @@ class AppointmentController extends Controller
             $patient = patient::find($item->patient_id);
             $item['patient_firstname'] = $patient->firstname;
             $item['patient_lastname'] = $patient->lastname;
+            $item['gender'] = $patient->gender;
             $item['patient_image'] = $patient->image;
             return $item;
         });
@@ -30,22 +31,35 @@ class AppointmentController extends Controller
         $start_date_range = $request->fromdate;
         $end_date_range = $request->todate;
 
-        $date_range_appointment = DB::table('appointments')
-            ->whereBetween('date_appointment',[$start_date_range, $end_date_range])
-            ->get();
+
+        $date_range_appointment = appointment::whereBetween('date_appointment',[$start_date_range, $end_date_range])
+            ->get()
+            ->map(function ($item) {
+            $patient = patient::find($item->patient_id);
+            $item['patient_firstname'] = $patient->firstname;
+            $item['patient_lastname'] = $patient->lastname;
+            $item['gender'] = $patient->gender;
+            $item['phone'] = $patient->phone;
+            $item['bloodType'] = $patient->bloodType;
+            $item['address'] = $patient->address;
+            $item['patient_image'] = $patient->image;
+            return $item;
+        });
         $ListAppointment = [];
         for($i = 0;$i < count($date_range_appointment);$i++){
             $start_time_appointment =strtotime($date_range_appointment[$i]->date_appointment . ' ' . $date_range_appointment[$i]->start_time_appointment);
             $end_time_appointment =strtotime($date_range_appointment[$i]->date_appointment . ' ' . $date_range_appointment[$i]->end_time_appointment);
+
             $start_time_range_loop =strtotime($date_range_appointment[$i]->date_appointment . ' ' . $start_time_range);
             $end_time_range_loop =strtotime($date_range_appointment[$i]->date_appointment . ' ' . $end_time_range);
 
-            if(($start_time_range_loop >= $start_time_appointment && $start_time_range_loop < $end_time_appointment)
-                || ($end_time_range_loop > $start_time_appointment && $end_time_range_loop <= $end_time_appointment)){
+
+            if(($start_time_range_loop <= $start_time_appointment && $end_time_range_loop > $start_time_appointment)
+                || ($start_time_range_loop < $end_time_appointment && $end_time_range_loop >= $end_time_appointment)){
                 array_push($ListAppointment,$date_range_appointment[$i]);
             }
         }
-        return $ListAppointment;
+        return AppointmentResource::collection($ListAppointment);
     }
     public function AddAppointment(Request $request){
         $validator = Validator::make($request->all(), [
@@ -53,7 +67,7 @@ class AppointmentController extends Controller
             'date'=> 'required',
             'start_time'=> 'required',
             'end_time'=> 'required',
-            'status'=> 'required',
+            'type'=> 'required',
         ]);
         if($validator->fails()){
             return false;
@@ -64,7 +78,8 @@ class AppointmentController extends Controller
             $appointment->date_appointment = request('date');
             $appointment->start_time_appointment = request('start_time') . ':00';
             $appointment->end_time_appointment = request('end_time') . ':00';
-            $appointment->state_appointment = request('status');
+            $appointment->type_appointment = request('type');
+            $appointment->state_appointment = 'waiting';
 
             $appointment->save();
 
@@ -83,16 +98,25 @@ class AppointmentController extends Controller
             'date'=> 'required',
             'start_time'=> 'required',
             'end_time'=> 'required',
-            'status'=> 'required',
+            'type'=> 'required',
+            'state'=> 'required',
             'confirme' => 'required',
         ]);
         $Appointment = appointment::where('id',$Validate['id']);
-        $Appointment->update([
-            'date_appointment' => $Validate['date'],
-            'start_time_appointment' => $Validate['start_time'],
-            'end_time_appointment' => $Validate['end_time'],
-            'state_appointment' => $Validate['status'],
-        ]);
+        $state = $Validate['state'];
+        if($state == 'fix'){
+            $Appointment->update([
+                'date_appointment' => $Validate['date'],
+                'start_time_appointment' => $Validate['start_time'],
+                'end_time_appointment' => $Validate['end_time'],
+                'type_appointment' => $Validate['type'],
+            ]);
+        }else{
+            $Appointment->update([
+                'state_appointment' => $state,
+            ]);
+        }
+
         $Response = [
             'message' => 'success',
         ];
