@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\patient;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Image;
 
@@ -14,6 +15,7 @@ class PatientController extends Controller
     {
 
         $search_query = request()->query('q');
+
         if ($search_query){
             $result = patient::where('firstname', 'like', "%$search_query%")
                 ->orWhere('lastname', 'like', "%$search_query%")
@@ -50,13 +52,20 @@ class PatientController extends Controller
     }
 
 
-    public function show($id)
+    public function show($id )
     {
-        $patient = patient::find($id);
+        if (request()->query('with_appointments')){
+            $patient = patient::with('appointments')->find($id);
+
+        }else{
+
+            $patient = patient::find($id);
+        }
+
         if ($patient) {
             return $patient;
         } else {
-            return ['error' => 'not found'];
+            return response()->json( ['error' => 'not found'] , 404);
         }
 
     }
@@ -106,7 +115,7 @@ class PatientController extends Controller
     }
 
     public function getAllPatient(){
-        $patient = db::table('patients')->get();
+        $patient = patient::all();
         return PatientResource::collection($patient);
     }
 }

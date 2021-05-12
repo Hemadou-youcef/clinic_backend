@@ -35,10 +35,15 @@ Route::get('/appointments/range',[\App\Http\Controllers\AppointmentController::c
 
 Route::get('/password' , function (){
 
-    return \Illuminate\Support\Facades\Hash::make('12345661');
+    return \Illuminate\Support\Facades\Hash::make('samisamo');
 });
 Route::get('/phpinfo', function() {
     return phpinfo();
 });
 
+Route::get('/date' , function (){
+    $datetime = new DateTime(now());
+//    $datetime->modify('+1 day');
+    return $datetime->format('Y-m-d H:i:s');
+});
 
