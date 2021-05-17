@@ -31,7 +31,7 @@ class PatientFactory extends Factory
             'gender' => $genders[ array_rand( $genders , 1)],
             'birthday' => $this->faker->date(),
             'address' => $this->faker->state(),
-            'image' => '/images/male/'.random_int(1,8).'.jpg',
+            'image' => '/images/patients/male/'.random_int(1,8).'.jpg',
             'phone' => $this->faker->phoneNumber(),
             'email' => $this->faker->email(),
             'bloodType' => $bloodTypes[array_rand($bloodTypes , 1)] ,

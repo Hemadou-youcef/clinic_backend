@@ -23,7 +23,7 @@ class UpdateImageController extends Controller
             $img->resize(200, 200, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($destinationPath.'/'.$input['imagename']);
-            $imageUrl = '/images/'.$input['imagename'];
+            $imageUrl = '/images/patients/'.$input['imagename'];
             $patient->image = $imageUrl;
             $patient->save();
             return [
