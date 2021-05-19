@@ -18,11 +18,11 @@ class UpdateImageController extends Controller
             $image = request()->file('image');
             $input['imagename'] = time().'.'.$patient->firstname.'-'.$patient->lastname.'.'.$image->extension();
 
-            $destinationPath = public_path('/images');
+            $destinationPath = public_path('/images/patients/');
             $img = Image::make($image->path());
             $img->resize(200, 200, function ($constraint) {
                 $constraint->aspectRatio();
-            })->save($destinationPath.'/'.$input['imagename']);
+            })->save($destinationPath.$input['imagename']);
             $imageUrl = '/images/patients/'.$input['imagename'];
             $patient->image = $imageUrl;
             $patient->save();
