@@ -33,11 +33,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/medicines/update/{medicine}', [\App\Http\Controllers\MedicineController::class , 'update']);
     Route::post('/medicines/delete/{medicine}', [\App\Http\Controllers\MedicineController::class , 'delete']);
 
-
 });
 
 Route::get('/appointments/range', [\App\Http\Controllers\AppointmentController::class, 'getRangeAppointments']);
 
+Route::get('/appointments/statistique', [\App\Http\Controllers\AppointmentController::class, 'AppointmentStatistiqueInfo']);
 
 Route::get('/password', function () {
 
