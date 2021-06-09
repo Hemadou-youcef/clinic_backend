@@ -15,8 +15,10 @@ class CreateConsultationsTable extends Migration
     {
         Schema::create('consultations', function (Blueprint $table) {
             $table->id();
-            $table->string('pattern');
-            $table->string('examination');
+            $table->string('motif');
+            $table->string('detail');
+            $table->string('examinations');
+            $table->string('traitement');
             $table->string('type');
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('appointment_id');
