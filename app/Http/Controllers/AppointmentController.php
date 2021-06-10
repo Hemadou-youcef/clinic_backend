@@ -19,6 +19,11 @@ class AppointmentController extends Controller
             $item['patient_lastname'] = $patient->lastname;
             $item['gender'] = $patient->gender;
             $item['patient_image'] = $patient->image;
+            if ($item->consultation){
+                $item['has_consultation'] = 'true';
+            }else{
+                $item['has_consultation'] = 'false';
+            }
             return $item;
         });
         return AppointmentResource::collection($appointments);
@@ -70,23 +75,19 @@ class AppointmentController extends Controller
             'type'=> 'required',
         ]);
         if($validator->fails()){
-            return false;
+            return response(['message' => 'validation failed'] , 404);
         }else{
             $appointment = new appointment();
-
             $appointment->patient_id = request('patient_id');
             $appointment->date_appointment = request('date');
             $appointment->start_time_appointment = request('start_time') . ':00';
             $appointment->end_time_appointment = request('end_time') . ':00';
             $appointment->type_appointment = request('type');
             $appointment->state_appointment = 'waiting';
-
             $appointment->save();
-
-            $Response = [
+            return response([
                 'message' => 'success',
-            ];
-            return response($Response,201);
+            ],201);
 
         }
 
@@ -123,18 +124,13 @@ class AppointmentController extends Controller
         return response($Response,201);
     }
     public function DeleteAppointment(Request $request){
-        $Validate = $request->validate([
-            'id' => 'required',
-            'confirme' => 'required',
-        ]);
+        $Validate = $request->validate(['id' => 'required',]);
         $Appointment = appointment::where('id',$Validate['id'])->get()->first();
-        if(!$Appointment || $Validate['confirme'] != 'yes'){
-            return response(['message' => 'error',],204);
+        if(!$Appointment){
+            return response(['message' => 'error',],404);
         }
         $Appointment->delete();
-        $Response = [
-            'message' => 'success',
-        ];
+        $Response = ['message' => 'success'];
         return response($Response,200);
     }
     public function AppointmentStatistiqueInfo(Request $request){
