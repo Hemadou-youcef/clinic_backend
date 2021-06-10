@@ -28,7 +28,8 @@ class AppointmentResource extends JsonResource
             'patient_phone' => $this->phone,
             'patient_bloodType' => $this->bloodType,
             'patient_address' => $this->address,
-            'image' => $this->patient_image
+            'image' => $this->patient_image,
+            'consult' => $this->consult
         ];
     }
 }

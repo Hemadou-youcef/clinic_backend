@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/patient/delete/{patient}', [\App\Http\Controllers\PatientController::class, 'destroy']);
     Route::post('/patient/update/{patient}', [\App\Http\Controllers\PatientController::class, 'update']);
 
-    Route::get('/appointments/all', [\App\Http\Controllers\AppointmentController::class, 'getAllAppointments']);
+
     Route::post('/appointment/add', [\App\Http\Controllers\AppointmentController::class, 'AddAppointment']);
     Route::post('/appointment/edit', [\App\Http\Controllers\AppointmentController::class, 'EditAppointment']);
     Route::post('/appointment/delete', [\App\Http\Controllers\AppointmentController::class, 'DeleteAppointment']);
@@ -39,9 +39,13 @@ Route::get('/appointments/range', [\App\Http\Controllers\AppointmentController::
 
 Route::get('/appointments/statistique', [\App\Http\Controllers\AppointmentController::class, 'AppointmentStatistiqueInfo']);
 
+Route::post('/consultation/add', [\App\Http\Controllers\ConsultationController::class, 'AddConsultation']);
+Route::get('/consultation/all', [\App\Http\Controllers\ConsultationController::class, 'getAllConsultations']);
+
+Route::get('/appointments/all', [\App\Http\Controllers\AppointmentController::class, 'getAllAppointments']);
 Route::get('/password', function () {
 
-    return \Illuminate\Support\Facades\Hash::make('samisamo');
+    return \Illuminate\Support\Facades\Hash::make('12345661');
 });
 Route::get('/phpinfo', function () {
     return phpinfo();

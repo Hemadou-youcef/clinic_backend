@@ -22,7 +22,7 @@ class CreateConsultationsTable extends Migration
             $table->string('type');
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('appointment_id');
-            $table->unsignedBigInteger('prescription_id');
+            $table->unsignedBigInteger('prescription_id')->nullable();
             $table->timestamps();
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
             $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');
