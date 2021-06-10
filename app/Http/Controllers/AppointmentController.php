@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\consultation;
 use Illuminate\Http\Request;
 use App\Models\patient;
 use App\Http\Resources\AppointmentResource;

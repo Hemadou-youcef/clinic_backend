@@ -19,13 +19,22 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/patient/create', [\App\Http\Controllers\PatientController::class, 'store']);
     Route::post('/patient/delete/{patient}', [\App\Http\Controllers\PatientController::class, 'destroy']);
     Route::post('/patient/update/{patient}', [\App\Http\Controllers\PatientController::class, 'update']);
-
+    Route::get('/allpatients', [\App\Http\Controllers\PatientController::class, 'getAllPatient']);
 
     Route::post('/appointment/add', [\App\Http\Controllers\AppointmentController::class, 'AddAppointment']);
     Route::post('/appointment/edit', [\App\Http\Controllers\AppointmentController::class, 'EditAppointment']);
     Route::post('/appointment/delete', [\App\Http\Controllers\AppointmentController::class, 'DeleteAppointment']);
-    Route::get('/allpatients', [\App\Http\Controllers\PatientController::class, 'getAllPatient']);
+    Route::get('/appointments/all', [\App\Http\Controllers\AppointmentController::class, 'getAllAppointments']);
 
+    Route::get('/appointments/range', [\App\Http\Controllers\AppointmentController::class, 'getRangeAppointments']);
+
+    Route::get('/appointments/statistique', [\App\Http\Controllers\AppointmentController::class, 'AppointmentStatistiqueInfo']);
+
+    Route::post('/consultation/add', [\App\Http\Controllers\ConsultationController::class, 'AddConsultation']);
+    Route::post('/consultation/edit', [\App\Http\Controllers\ConsultationController::class, 'EditConsultation']);
+    Route::post('/consultation/delete', [\App\Http\Controllers\ConsultationController::class, 'DeleteConsultation']);
+    Route::get('/consultation/all', [\App\Http\Controllers\ConsultationController::class, 'getAllConsultations']);
+    Route::get('/consultation/{id}', [\App\Http\Controllers\ConsultationController::class, 'getConsultationDetail']);
 
 
     Route::get('/medicines', [\App\Http\Controllers\MedicineController::class , 'index']);
@@ -35,14 +44,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 
-Route::get('/appointments/range', [\App\Http\Controllers\AppointmentController::class, 'getRangeAppointments']);
 
-Route::get('/appointments/statistique', [\App\Http\Controllers\AppointmentController::class, 'AppointmentStatistiqueInfo']);
 
-Route::post('/consultation/add', [\App\Http\Controllers\ConsultationController::class, 'AddConsultation']);
-Route::get('/consultation/all', [\App\Http\Controllers\ConsultationController::class, 'getAllConsultations']);
 
-Route::get('/appointments/all', [\App\Http\Controllers\AppointmentController::class, 'getAllAppointments']);
 Route::get('/password', function () {
 
     return \Illuminate\Support\Facades\Hash::make('12345661');
