@@ -18,4 +18,9 @@ class consultation extends Model
     {
         return $this->belongsTo(appointment::class );
     }
+
+    public function prescription()
+    {
+        return $this->hasOne(prescription::class);
+    }
 }

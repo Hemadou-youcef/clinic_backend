@@ -15,6 +15,6 @@ class appointment extends Model
     }
     public function consultation()
     {
-        return $this->hasOne(consultation::class);
+        return $this->hasOne(consultation::class , 'appointment_id');
     }
 }

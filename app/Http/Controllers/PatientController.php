@@ -39,17 +39,10 @@ class PatientController extends Controller
     {
 
         $patient_info = $this->validation(request());
-
-
-
-
         return patient::create($patient_info);
     }
 
-    public function updatepicture(patient $patient)
-    {
 
-    }
 
 
     public function show($id )
@@ -72,8 +65,17 @@ class PatientController extends Controller
 
     public function update(patient $patient)
     {
-
-        $patient_info = $this->validation(request());
+        $genders = ['male', 'female'];
+        $bloodTypes = ['O-', 'O+', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'];
+        $patient_info = request()->validate([
+            'firstname' => ['required'],
+            'lastname' => ['required'],
+            'gender' => ['required', Rule::in($genders)],
+            'bloodType' => ['required', Rule::in($bloodTypes)],
+            'email' => ['required', 'email'],
+            'address' => ['required'],
+            'birthday' => ['required'],
+            'phone' => ['required', 'min:5'], ]);
         if ($patient->update($patient_info)) {
             return ['status' => 'ok'];
 
@@ -103,9 +105,7 @@ class PatientController extends Controller
             'email' => ['required', 'email'],
             'address' => ['required'],
             'birthday' => ['required'],
-            'phone' => ['required', 'min:5'],
-
-        ]);
+            'phone' => ['required', 'min:5'], ]);
         return $request_info;
     }
 

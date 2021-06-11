@@ -15,16 +15,15 @@ class MedicineController extends Controller
                 return $item;
             });
     }
+
     public function store()
     {
         $medicine = request()->validate([
             'scientific_name' => ['required'],
             'trade_name' => ['required']
         ]);
-
         $created_medicine = medicine::create($medicine);
         if ($created_medicine){
-
             return response()->json($created_medicine , 200);
         }else{
             return [

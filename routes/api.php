@@ -6,13 +6,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/patients', [\App\Http\Controllers\PatientController::class, 'index']);
 Route::post('/login', [\App\Http\Controllers\LoginController::class, 'login']);
-Route::post('/logout', [\App\Http\Controllers\LoginController::class, 'logout']);
+
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user', function (Request $request) {
         return $request->user();
     });
-
+    Route::post('/logout', [\App\Http\Controllers\LoginController::class, 'logout']);
     Route::post('/image/{patient}', [\App\Http\Controllers\UpdateImageController::class, 'store']);
 //    Route::get('/patients' , [\App\Http\Controllers\PatientController::class , 'index']);
     Route::get('/patient/{id}', [\App\Http\Controllers\PatientController::class, 'show']);
@@ -41,6 +41,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/medicines/add', [\App\Http\Controllers\MedicineController::class , 'store']);
     Route::post('/medicines/update/{medicine}', [\App\Http\Controllers\MedicineController::class , 'update']);
     Route::post('/medicines/delete/{medicine}', [\App\Http\Controllers\MedicineController::class , 'delete']);
+
+    Route::post('/prescription/add/{id}' , [\App\Http\Controllers\PrescriptionController::class , 'store']);
+    Route::get('/prescription/{id}' , [\App\Http\Controllers\PrescriptionController::class , 'show']);
 
 });
 
