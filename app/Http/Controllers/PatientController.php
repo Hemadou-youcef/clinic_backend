@@ -28,7 +28,7 @@ class PatientController extends Controller
         }
         if (request()->query('q')){}
 //        return patient::all()->sortBy('updated_at',SORT_DESC)->toQuery()->paginate(20);
-        return patient::all()->toQuery()->orderBy('created_at', 'desc')->paginate(20);
+        return patient::orderBy('created_at', 'desc')->paginate(20);
         $patients_list = patient::orderBy('created_at', 'DESC')->get();
 
 

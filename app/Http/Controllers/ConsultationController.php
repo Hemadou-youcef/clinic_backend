@@ -13,18 +13,27 @@ class ConsultationController extends Controller
 {
     public function getAllConsultations(){
 
-        $consultations = consultation::all()->map(function ($item) {
-            $patient = patient::find($item->patient_id);
-            $item['patient_firstname'] = $patient->firstname;
-            $item['patient_lastname'] = $patient->lastname;
-            $item['patient_id'] = $patient->id;
-            $item['patient_image'] = $patient->image;
-            $appointment = appointment::find($item->appointment_id);
-            $item['appointment_date'] = $appointment->date_appointment ;
-            $item['appointment_time'] = $appointment->start_time_appointment;
+        $order_by_type = "asc";
+        $order_by_column = "created_at";
+        if(request()->query('s')){
+            $order_by_type = request()->query('s');
+        }
+        $consultations =  consultation::orderBy($order_by_column, $order_by_type)->paginate(20);
+
+        $edited =     $consultations->getCollection()->map(function ($item) {
+                $patient = patient::find($item->patient_id);
+                $item['PatientFullName'] =$patient->firstname . ' ' .$patient->lastname;
+                $item['PatientImage'] =$patient->image;
+                $item['PatientID'] =$patient->id;
+                $item['consultation_date'] =$item->created_at;
+                $appointment = appointment::find($item->appointment_id);
+                $item['date'] = $appointment->date_appointment ;
+                $item['time'] = substr( $appointment->start_time_appointment,0,5);
             return $item;
         });
-        return ConsultationResource::collection($consultations);
+        $consultations->setCollection($edited);
+        return $consultations;
+
 
 
     }
