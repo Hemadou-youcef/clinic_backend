@@ -48,7 +48,7 @@ class PatientController extends Controller
     public function show($id )
     {
         if (request()->query('with_appointments')){
-            $patient = patient::with('appointments')->find($id);
+            $patient = patient::with('appointments')->with('consultations')->find($id);
 
         }else{
 
