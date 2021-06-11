@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\consultation;
 use Illuminate\Http\Request;
 use App\Models\patient;
 use App\Http\Resources\AppointmentResource;
@@ -21,11 +22,14 @@ class AppointmentController extends Controller
             $item['patient_image'] = $patient->image;
             if ($item->consultation){
                 $item['has_consultation'] = 'true';
+                $consultation = consultation::where('appointment_id',$item['id'])->get()->first();
+                $item['consult'] = $consultation->id;
             }else{
                 $item['has_consultation'] = 'false';
             }
             return $item;
         });
+
         return AppointmentResource::collection($appointments);
 
 
@@ -40,16 +44,23 @@ class AppointmentController extends Controller
         $date_range_appointment = appointment::whereBetween('date_appointment',[$start_date_range, $end_date_range])
             ->get()
             ->map(function ($item) {
-            $patient = patient::find($item->patient_id);
-            $item['patient_firstname'] = $patient->firstname;
-            $item['patient_lastname'] = $patient->lastname;
-            $item['gender'] = $patient->gender;
-            $item['phone'] = $patient->phone;
-            $item['bloodType'] = $patient->bloodType;
-            $item['address'] = $patient->address;
-            $item['patient_image'] = $patient->image;
-            return $item;
-        });
+                $patient = patient::find($item->patient_id);
+                $item['patient_firstname'] = $patient->firstname;
+                $item['patient_lastname'] = $patient->lastname;
+                $item['gender'] = $patient->gender;
+                $item['phone'] = $patient->phone;
+                $item['bloodType'] = $patient->bloodType;
+                $item['address'] = $patient->address;
+                $item['patient_image'] = $patient->image;
+                if ($item->consultation){
+                    $item['has_consultation'] = 'true';
+                    $consultation = consultation::where('appointment_id',$item['id'])->get()->first();
+                    $item['consult'] = $consultation->id;
+                }else{
+                    $item['has_consultation'] = 'false';
+                }
+                return $item;
+            });
         $ListAppointment = [];
         for($i = 0;$i < count($date_range_appointment);$i++){
             $start_time_appointment =strtotime($date_range_appointment[$i]->date_appointment . ' ' . $date_range_appointment[$i]->start_time_appointment);
@@ -101,7 +112,6 @@ class AppointmentController extends Controller
             'end_time'=> 'required',
             'type'=> 'required',
             'state'=> 'required',
-            'confirme' => 'required',
         ]);
         $Appointment = appointment::where('id',$Validate['id']);
         $state = $Validate['state'];
@@ -171,8 +181,8 @@ class AppointmentController extends Controller
         if($request->type == 'gender'){
             for($i = 0;$i < count($ListAppointment);$i++){
                 array_push($filtredListAppointment,[
-                    'gender' => $ListAppointment[$i]->gender,
-                    'date' =>  $ListAppointment[$i]->date_appointment
+                        'gender' => $ListAppointment[$i]->gender,
+                        'date' =>  $ListAppointment[$i]->date_appointment
                     ]
                 );
             }
@@ -187,7 +197,7 @@ class AppointmentController extends Controller
         }else if($request->type == 'state'){
             for($i = 0;$i < count($ListAppointment);$i++){
                 if($ListAppointment[$i]->state_appointment == 'missed'
-                || $ListAppointment[$i]->state_appointment == 'check'){
+                    || $ListAppointment[$i]->state_appointment == 'check'){
                     array_push($filtredListAppointment,[
                             'state' => $ListAppointment[$i]->state_appointment,
                             'date' =>  $ListAppointment[$i]->date_appointment
