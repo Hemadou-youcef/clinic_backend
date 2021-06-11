@@ -30,11 +30,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/appointments/statistique', [\App\Http\Controllers\AppointmentController::class, 'AppointmentStatistiqueInfo']);
 
-    Route::post('/consultation/add', [\App\Http\Controllers\ConsultationController::class, 'AddConsultation']);
-    Route::post('/consultation/edit', [\App\Http\Controllers\ConsultationController::class, 'EditConsultation']);
-    Route::post('/consultation/delete', [\App\Http\Controllers\ConsultationController::class, 'DeleteConsultation']);
-    Route::get('/consultation/all', [\App\Http\Controllers\ConsultationController::class, 'getAllConsultations']);
-    Route::get('/consultation/{id}', [\App\Http\Controllers\ConsultationController::class, 'getConsultationDetail']);
+    Route::post('/consultation/add', [\App\Http\Controllers\ConsultationController::class, 'AddConsultation'])->middleware('isdoctor');
+    Route::post('/consultation/edit', [\App\Http\Controllers\ConsultationController::class, 'EditConsultation'])->middleware('isdoctor');
+    Route::post('/consultation/delete', [\App\Http\Controllers\ConsultationController::class, 'DeleteConsultation'])->middleware('isdoctor');
+    Route::get('/consultation/all', [\App\Http\Controllers\ConsultationController::class, 'getAllConsultations'])->middleware('isdoctor');
+    Route::get('/consultation/{id}', [\App\Http\Controllers\ConsultationController::class, 'getConsultationDetail'])->middleware('isdoctor');
 
 
     Route::get('/medicines', [\App\Http\Controllers\MedicineController::class , 'index']);
@@ -42,8 +42,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/medicines/update/{medicine}', [\App\Http\Controllers\MedicineController::class , 'update']);
     Route::post('/medicines/delete/{medicine}', [\App\Http\Controllers\MedicineController::class , 'delete']);
 
-    Route::post('/prescription/add/{id}' , [\App\Http\Controllers\PrescriptionController::class , 'store']);
-    Route::get('/prescription/{id}' , [\App\Http\Controllers\PrescriptionController::class , 'show']);
+    Route::post('/prescription/add/{id}' , [\App\Http\Controllers\PrescriptionController::class , 'store'])->middleware('isdoctor');
+    Route::get('/prescription/{id}' , [\App\Http\Controllers\PrescriptionController::class , 'show'])->middleware('isdoctor');
 
 });
 
