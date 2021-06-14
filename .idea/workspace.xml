@@ -4,17 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="62d29b94-2fdf-43a4-9a54-0a4c4bf62816" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Middleware/isDoctor.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/patients/1623451299.Meghan-Lynn.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/patients/1623451381.Meghan-Lynn.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/patients/1623451414.Meghan-Lynn.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/patients/1623451415.Meghan-Lynn.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/patients/1623451455.klj-lkj.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/patients/1623451525.Chelsea-Wall.png" afterDir="false" />
+    <list default="true" id="62d29b94-2fdf-43a4-9a54-0a4c4bf62816" name="Default Changelist" comment="add doctor middleware">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/LoginController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -192,7 +186,9 @@
       <workItem from="1620772797014" duration="8966000" />
       <workItem from="1621191110222" duration="414000" />
       <workItem from="1621191576422" duration="14405000" />
-      <workItem from="1623345639269" duration="26256000" />
+      <workItem from="1623345639269" duration="27263000" />
+      <workItem from="1623599960445" duration="2688000" />
+      <workItem from="1623675788771" duration="3744000" />
     </task>
     <task id="LOCAL-00001" summary="add search patients">
       <created>1620175692056</created>
@@ -250,7 +246,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623448290620</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="add doctor middleware">
+      <created>1623455546795</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1623455546795</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -276,6 +279,7 @@
     <MESSAGE value="add appointment has_consultation relationship" />
     <MESSAGE value="add patient consultations relationship" />
     <MESSAGE value="add consultation sorting and pagination" />
-    <option name="LAST_COMMIT_MESSAGE" value="add consultation sorting and pagination" />
+    <MESSAGE value="add doctor middleware" />
+    <option name="LAST_COMMIT_MESSAGE" value="add doctor middleware" />
   </component>
 </project>

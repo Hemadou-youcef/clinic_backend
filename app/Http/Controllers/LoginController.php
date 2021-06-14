@@ -16,11 +16,17 @@ class LoginController extends Controller
         ]);
 
         if ( Auth::attempt($credentials)){
-            return response()->json(Auth::user(), 200);
+
+            $token = auth()->user()->createToken('Api token')->plainTextToken;
+            return response()->json(['user' => auth()->user() , 'token' => $token], 200);
         }
 
+//        if ( Auth::attempt($credentials)){
+//            return response()->json(Auth::user(), 200);
+//        }
+//
          throw \Illuminate\Validation\ValidationException::withMessages([
-            'UserNotFound' => 'user not found'
+            'UserNotFound' => 'The provided credentials are incorrect.'
         ]);
 
     }
@@ -28,7 +34,8 @@ class LoginController extends Controller
     public function logout()
     {
         if (Auth::check()){
-            Auth::logout();
+            auth()->user()->tokens()->delete();
+            return response()->json('logout' , 201);
         }
     }
 }
