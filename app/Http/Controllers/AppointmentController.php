@@ -123,9 +123,11 @@ class AppointmentController extends Controller
                 'type_appointment' => $Validate['type'],
             ]);
         }else{
-            $Appointment->update([
-                'state_appointment' => $state,
-            ]);
+            if($Appointment->get()->first()->state_appointment != 'missed'){
+                $Appointment->update([
+                    'state_appointment' => $state,
+                ]);
+            }
         }
 
         $Response = [
